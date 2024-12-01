@@ -10,7 +10,15 @@ generate year day:
 
 run-p1 year day:
     cd ./y{{year}}/d{{day}}/part1 && zig build && ./zig-out/bin/part1 ../input.txt
+run-p1-example year day:
+    cd ./y{{year}}/d{{day}}/part1 && zig build && ./zig-out/bin/part1 ../example.txt
+run-p2-example year day:
+    cd ./y{{year}}/d{{day}}/part2 && zig build && ./zig-out/bin/part1 ../example.txt
 
 run-p2 year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig build && ./zig-out/bin/part2 ../input.txt
+    cd ./y{{year}}/d{{day}}/part2 && zig build && ./zig-out/bin/part1 ../input.txt
+
+clear:
+    rm -rf ./y*/d*/part*/zig-out
+    rm -rf ./y*/d*/part*/.zig-cache
 
