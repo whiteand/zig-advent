@@ -10,7 +10,7 @@ pub fn main() !void {
 
     const file_name = args_iter.next().?;
 
-    const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 0xffffffffffffffff);
+    const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 1024 * 1024);
 
     const solution = try solve(std.mem.trim(u8, file_content, " \n"), allocator);
     const stdout = std.io.getStdOut();
