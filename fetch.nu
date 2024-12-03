@@ -17,7 +17,9 @@ def main [y?: int, d?: string] {
     let input = http get --headers [Cookie $cookie] $url;
     let year_short = ($year mod 100 | into string);
     let padded_day = ("00" + ($day | into string) | str substring (-2..));
-    let benches_path = $"y($year_short)/d($padded_day)/input.txt";
+    let benches_path = $"y($year_short)/d($padded_day)/part1/src/input.txt";
+    let benches_path2 = $"y($year_short)/d($padded_day)/part2/src/input.txt";
     
     (echo $input) out> $benches_path;
+    (echo $input) out> $benches_path2;
 }
