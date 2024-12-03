@@ -1,4 +1,5 @@
 const std = @import("std");
+const LineParser = @import("./LineParser.zig");
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
@@ -20,48 +21,38 @@ pub fn main() !void {
 
 fn solve(file_content: []const u8) !usize {
     var total: u32 = 0;
-    next: for (0..file_content.len) |i| {
-        var slice = file_content[i..];
-        if (std.mem.startsWith(u8, slice, "mul(")) {
-            slice = slice[4..];
-            var a: u32 = 0;
-            var b: u32 = 0;
-            for (0..slice.len) |j| {
-                if (std.ascii.isDigit(slice[j])) {
-                    a = a * 10 + (slice[j] - '0');
-                } else {
-                    slice = slice[j..];
-                    break;
-                }
-            } else {
-                continue :next;
+    var parser = LineParser.init(file_content);
+    while (!parser.finished()) {
+        if (parser.parsePrefix("mul(") catch false) {
+            const a = parser.parseDecimalInt(u32) catch {
+                parser.skip(1);
+                continue;
+            };
+            if (!(parser.parseKnownChar(',') catch false)) {
+                parser.skip(1);
+                continue;
             }
-            if (slice[0] != ',') {
-                continue :next;
+            const b = parser.parseDecimalInt(u32) catch {
+                parser.skip(1);
+                continue;
+            };
+            if (!(parser.parseKnownChar(')') catch false)) {
+                parser.skip(1);
+                continue;
             }
-            slice = slice[1..];
-            for (0..slice.len) |j| {
-                if (std.ascii.isDigit(slice[j])) {
-                    b = b * 10 + (slice[j] - '0');
-                } else {
-                    slice = slice[j..];
-                    break;
-                }
-            } else {
-                continue :next;
-            }
-            if (slice[0] != ')') {
-                continue :next;
-            }
-            slice = slice[1..];
+
             total += a * b;
+
+            continue;
         }
+
+        parser.skip(1);
     }
     return total;
 }
 
 test "works" {
-    const res = solve("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))\n");
+    const res = solve("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))");
     try std.testing.expectEqual(res, 161);
 }
 
