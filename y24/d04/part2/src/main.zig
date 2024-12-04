@@ -16,6 +16,12 @@ pub fn main() !void {
     const stdout = std.io.getStdOut();
     const output_buf = try std.fmt.allocPrint(allocator, "Solution: {}\n", .{solution});
     try stdout.writeAll(output_buf);
+    try @import("benchmark.zig").bench("solve", solve_bench, allocator);
+}
+
+fn solve_bench(allocator: std.mem.Allocator) void {
+    const input = @embedFile("./input.txt");
+    _ = solve(input, allocator) catch unreachable;
 }
 
 fn solve(file_content: []const u8, allocator: std.mem.Allocator) !usize {
