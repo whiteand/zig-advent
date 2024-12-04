@@ -27,5 +27,5 @@ fn solve(file_content: []const u8, allocator: std.mem.Allocator) !usize {
 test "actual" {
     const allocator = std.testing.allocator;
     const input = @embedFile("./input.txt");
-    std.testing.expectEqual(solve(input, allocator), 0);
+    try std.testing.expectEqual(solve(input, allocator), 0);
 }

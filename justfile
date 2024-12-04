@@ -12,14 +12,14 @@ generate year day:
     @cd ./y{{year}}/d{{day}}/part2 && zig build --help
 
 run-p1 year day:
-    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ../input.txt 
+    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ./src/input.txt 
 run-p1-example year day:
     cd ./y{{year}}/d{{day}}/part1 && zig build run -- ../example.txt 
 run-p2-example year day:
     cd ./y{{year}}/d{{day}}/part2 && zig build run -- ../example.txt
 
 run-p2 year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ../input.txt
+    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ./src/input.txt
 
 test-p1 year day:
     cd ./y{{year}}/d{{day}}/part1 && zig test ./src/main.zig
