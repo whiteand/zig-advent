@@ -1,5 +1,6 @@
 const std = @import("std");
-const LineParser = @import("./LineParser.zig");
+const advent_utils = @import("advent_utils");
+const LineParser = advent_utils.LineParser;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
@@ -13,7 +14,7 @@ pub fn main() !void {
 
     const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 1024 * 1024 * 8);
 
-    const solution = try solve(std.mem.trim(u8, file_content, " \n"), allocator);
+    const solution = try solve(std.mem.trim(u8, file_content, " \n"));
     const stdout = std.io.getStdOut();
     const output_buf = try std.fmt.allocPrint(allocator, "Solution: {}\n", .{solution});
     try stdout.writeAll(output_buf);

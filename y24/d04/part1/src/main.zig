@@ -1,5 +1,6 @@
 const std = @import("std");
-const benchmark = @import("benchmark.zig");
+const advent_utils = @import("advent_utils");
+const benchmark = advent_utils.benchmark;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);

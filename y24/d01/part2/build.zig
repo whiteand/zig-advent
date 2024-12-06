@@ -15,12 +15,22 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
+    const advent_utils_dep = b.dependency("advent_utils", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const advent_utils_mod = b.addModule("advent_utils", .{
+        .root_source_file = advent_utils_dep.path("utils.zig"),
+    });
+
     const exe = b.addExecutable(.{
         .name = "part1",
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
+    exe.root_module.addImport("advent_utils", advent_utils_mod);
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
