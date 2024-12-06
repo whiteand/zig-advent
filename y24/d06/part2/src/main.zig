@@ -183,5 +183,5 @@ fn traverse(grid: *const Grid(u8), allocator: std.mem.Allocator, initial: @Vecto
 test "actual" {
     const allocator = std.testing.allocator;
     const input = @embedFile("./input.txt");
-    try std.testing.expectEqual(solve(input, allocator), 5086);
+    try std.testing.expectEqual(solve(input, allocator), 1770);
 }

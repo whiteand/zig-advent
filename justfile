@@ -22,10 +22,10 @@ run-p2 year day:
     cd ./y{{year}}/d{{day}}/part2 && zig build run -- ./src/input.txt
 
 test-p1 year day:
-    cd ./y{{year}}/d{{day}}/part1 && zig test ./src/main.zig
+    cd ./y{{year}}/d{{day}}/part1 && zig build test
     
 test-p2 year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig test ./src/main.zig
+    cd ./y{{year}}/d{{day}}/part2 && zig build test
 
 test year day:
     just test-p1 {{year}} {{day}}

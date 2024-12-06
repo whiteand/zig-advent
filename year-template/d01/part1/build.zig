@@ -59,4 +59,17 @@ pub fn build(b: *std.Build) void {
     // This will evaluate the `run` step rather than the default, which is "install".
     const run_step = b.step("run", "Run the app");
     run_step.dependOn(&run_cmd.step);
+
+    const test_compile = b.addTest(.{
+        .root_source_file = b.path("src/main.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+
+    test_compile.root_module.addImport("advent_utils", advent_utils_mod);
+
+    const test_cmd = b.addRunArtifact(test_compile);
+
+    const test_step = b.step("test", "Run the tests");
+    test_step.dependOn(&test_cmd.step);
 }
