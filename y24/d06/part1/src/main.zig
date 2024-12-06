@@ -1,4 +1,7 @@
 const std = @import("std");
+const advent_utils = @import("advent_utils");
+const SliceGrid = advent_utils.grid.SliceGrid;
+const Grid = advent_utils.grid.Grid;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
@@ -29,7 +32,7 @@ fn solve(file_content: []const u8, allocator: std.mem.Allocator) !usize {
     var grid = try std.ArrayList([]const u8).initCapacity(allocator, 200);
     defer grid.deinit();
 
-    var pos: Pos = .{ 0, 0 };
+    var pos: @Vector(2, i32) = .{ 0, 0 };
     var r: i32 = 0;
     while (lines_iter.next()) |line| {
         if (line.len != 0) {
@@ -75,7 +78,7 @@ const Dir = enum(u2) {
             .left => return .up,
         }
     }
-    fn apply(dir: *const Dir, pos: Pos) Pos {
+    fn apply(dir: *const Dir, pos: @Vector(2, i32)) @Vector(2, i32) {
         switch (dir.*) {
             .up => return .{ pos[0] - 1, pos[1] },
             .right => return .{ pos[0], pos[1] + 1 },
@@ -84,64 +87,6 @@ const Dir = enum(u2) {
         }
     }
 };
-
-const Pos = @Vector(2, i32);
-
-fn SliceGrid(comptime T: type) type {
-    return struct {
-        const Inner = []const []const T;
-        const Self = @This();
-        cells: Inner,
-        fn get(self: *const Self, pos: Pos) ?*const T {
-            if (pos[0] < 0 or pos[0] >= self.cells.len or pos[1] < 0 or pos[1] >= self.cells[@intCast(pos[0])].len) {
-                return null;
-            }
-            return &self.cells[@intCast(pos[0])][@intCast(pos[1])];
-        }
-        fn get_mut(self: *Self, pos: Pos) ?*T {
-            if (pos[0] < 0 or pos[0] >= self.len or pos[1] < 0 or pos[1] >= self[@intCast(pos[0])].len) {
-                return null;
-            }
-            return &self[@intCast(pos[0])][@intCast(pos[1])];
-        }
-        fn init(cells: []const []const T) SliceGrid(T) {
-            return .{ .cells = cells };
-        }
-    };
-}
-fn Grid(comptime T: type) type {
-    return struct {
-        const Inner = std.ArrayList(std.ArrayList(T));
-        const Self = @This();
-
-        cells: Inner,
-
-        fn get(self: *Self, pos: Pos) ?T {
-            if (pos[0] < 0 or pos[0] >= self.cells.items.len or pos[1] < 0 or pos[1] >= self.cells.items[@intCast(pos[0])].items.len) {
-                return null;
-            }
-            return self.cells.items[@intCast(pos[0])].items[@intCast(pos[1])];
-        }
-        fn get_mut(self: *Self, pos: Pos) ?*T {
-            if (pos[0] < 0) return null;
-            if (pos[0] >= self.cells.items.len) return null;
-            if (pos[1] < 0) return null;
-            const r: usize = @intCast(pos[0]);
-            if (pos[1] >= self.cells.items[r].items.len) return null;
-            const c: usize = @intCast(pos[1]);
-            return &self.cells.items[r].items[c];
-        }
-        fn init(cells: std.ArrayList(std.ArrayList(T))) Self {
-            return .{ .cells = cells };
-        }
-        fn deinit(self: *Self) void {
-            while (self.cells.popOrNull()) |x| {
-                x.deinit();
-            }
-            self.cells.deinit();
-        }
-    };
-}
 
 const State = struct {
     up: bool,
@@ -180,7 +125,7 @@ const TraverseResult = struct {
     loop: bool,
 };
 
-fn traverse(grid: *const SliceGrid(u8), allocator: std.mem.Allocator, initial: Pos, initial_dir: Dir) !TraverseResult {
+fn traverse(grid: *const SliceGrid(u8), allocator: std.mem.Allocator, initial: @Vector(2, i32), initial_dir: Dir) !TraverseResult {
     var pos = initial;
     var dir = initial_dir;
 
