@@ -7,7 +7,6 @@ generate year day:
     @cp -r ./year-template/day/part1 ./y{{year}}/d{{day}}/part1
     @cp -r ./year-template/day/part2 ./y{{year}}/d{{day}}/part2
     @cp -r ./year-template/day/lib ./y{{year}}/d{{day}}/lib
-    @echo "" > ./y{{year}}/d{{day}}/example.txt
     @nu fetch.nu 20{{year}} {{day}};
     @cd ./y{{year}}/d{{day}}/part1 && zig build --help
     @cd ./y{{year}}/d{{day}}/part2 && zig build --help
