@@ -24,6 +24,15 @@ pub fn build(b: *std.Build) void {
         .root_source_file = advent_utils_dep.path("utils.zig"),
     });
 
+    const lib_dep = b.dependency("lib", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const lib_mod = b.addModule("lib", .{
+        .root_source_file = lib_dep.path("lib.zig"),
+    });
+
     const exe = b.addExecutable(.{
         .name = "part1",
         .root_source_file = b.path("src/main.zig"),
@@ -31,6 +40,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     exe.root_module.addImport("advent_utils", advent_utils_mod);
+    exe.root_module.addImport("lib", lib_mod);
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
@@ -61,7 +71,7 @@ pub fn build(b: *std.Build) void {
     run_step.dependOn(&run_cmd.step);
 
     const test_compile = b.addTest(.{
-        .root_source_file = b.path("src/main.zig"),
+        .root_source_file = b.path("../lib/lib.zig"),
         .target = target,
         .optimize = optimize,
     });
