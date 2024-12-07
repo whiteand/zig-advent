@@ -1,6 +1,9 @@
 const std = @import("std");
 const advent_utils = @import("advent_utils");
 const benchmark = advent_utils.benchmark;
+const lib = @import("lib");
+const Op = lib.Op;
+const solve_with_ops = lib.solve_with_ops;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
@@ -14,7 +17,7 @@ pub fn main() !void {
 
     const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 1024 * 1024 * 8);
 
-    const solution = try solve(std.mem.trim(u8, file_content, " \n"), allocator);
+    const solution = try lib.solve2(std.mem.trim(u8, file_content, " \n"));
     const stdout = std.io.getStdOut();
     const output_buf = try std.fmt.allocPrint(allocator, "Solution: {}\n", .{solution});
     try stdout.writeAll(output_buf);
@@ -23,17 +26,7 @@ pub fn main() !void {
 }
 
 fn solve_bench(allocator: std.mem.Allocator) void {
+    _ = allocator;
     const input = @embedFile("./input.txt");
-    _ = solve(input, allocator) catch unreachable;
-}
-fn solve(file_content: []const u8, allocator: std.mem.Allocator) !usize {
-    std.debug.print("allocator: {any}\n", .{allocator});
-    std.debug.print("file_content:\n{s}\n", .{file_content});
-    return 0;
-}
-
-test "actual" {
-    const allocator = std.testing.allocator;
-    const input = @embedFile("./input.txt");
-    try std.testing.expectEqual(solve(input, allocator), 0);
+    _ = lib.solve2(input) catch unreachable;
 }
