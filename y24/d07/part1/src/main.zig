@@ -1,5 +1,6 @@
 const std = @import("std");
 const advent_utils = @import("advent_utils");
+const imput_txt = lib.input_txt;
 const benchmark = advent_utils.benchmark;
 const lib = @import("lib");
 const Op = lib.Op;
@@ -27,6 +28,5 @@ pub fn main() !void {
 
 fn solve_bench(allocator: std.mem.Allocator) void {
     _ = allocator;
-    const input = @embedFile("./input.txt");
-    _ = lib.solve1(input) catch unreachable;
+    _ = lib.solve1(lib.input_txt) catch unreachable;
 }

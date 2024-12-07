@@ -1,5 +1,6 @@
 const std = @import("std");
 const advent_utils = @import("advent_utils");
+const imput_txt = lib.input_txt;
 const benchmark = advent_utils.benchmark;
 const lib = @import("lib");
 const Op = lib.Op;
@@ -17,7 +18,7 @@ pub fn main() !void {
 
     const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 1024 * 1024 * 8);
 
-    const solution = try lib.solve1(std.mem.trim(u8, file_content, " \n"));
+    const solution = try lib.solve1(std.mem.trim(u8, file_content, " \n"), allocator);
     const stdout = std.io.getStdOut();
     const output_buf = try std.fmt.allocPrint(allocator, "Solution: {}\n", .{solution});
     try stdout.writeAll(output_buf);
@@ -27,6 +28,5 @@ pub fn main() !void {
 
 fn solve_bench(allocator: std.mem.Allocator) void {
     _ = allocator;
-    const input = @embedFile("./input.txt");
-    _ = lib.solve1(input) catch unreachable;
+    _ = lib.solve1(lib.input_txt) catch unreachable;
 }

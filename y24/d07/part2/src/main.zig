@@ -27,6 +27,6 @@ pub fn main() !void {
 
 fn solve_bench(allocator: std.mem.Allocator) void {
     _ = allocator;
-    const input = @embedFile("./input.txt");
+    const input = lib.input_txt;
     _ = lib.solve2(input) catch unreachable;
 }

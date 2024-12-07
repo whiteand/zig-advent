@@ -23,10 +23,6 @@
     // Once all dependencies are fetched, `zig build` no longer requires
     // internet connectivity.
     .dependencies = .{
-        .advent_utils = .{
-            .path = "../../../advent_utils",
-            .lazy = false,
-        },
         .lib = .{
             .path = "../lib",
             .lazy = false,

@@ -22,15 +22,8 @@ run-p2-example year day:
 run-p2 year day:
     cd ./y{{year}}/d{{day}}/part2 && zig build run -- ./src/input.txt
 
-test-p1 year day:
-    cd ./y{{year}}/d{{day}}/part1 && zig build test
-    
-test-p2 year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig build test
-
 test year day:
-    just test-p1 {{year}} {{day}}
-    just test-p2 {{year}} {{day}}
+    cd ./y{{year}}/d{{day}}/lib && zig build test
 
 clear:
     rm -rf ./y*/d*/part*/zig-out

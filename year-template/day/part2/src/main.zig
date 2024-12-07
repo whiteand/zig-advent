@@ -17,7 +17,7 @@ pub fn main() !void {
 
     const file_content = try std.fs.cwd().readFileAlloc(allocator, file_name, 1024 * 1024 * 8);
 
-    const solution = try lib.solve2(std.mem.trim(u8, file_content, " \n"));
+    const solution = try lib.solve2(std.mem.trim(u8, file_content, " \n"), allocator);
     const stdout = std.io.getStdOut();
     const output_buf = try std.fmt.allocPrint(allocator, "Solution: {}\n", .{solution});
     try stdout.writeAll(output_buf);
@@ -27,6 +27,6 @@ pub fn main() !void {
 
 fn solve_bench(allocator: std.mem.Allocator) void {
     _ = allocator;
-    const input = @embedFile("./input.txt");
+    const input = lib.input_txt;
     _ = lib.solve2(input) catch unreachable;
 }

@@ -1,4 +1,7 @@
 const std = @import("std");
+const advent_utils = @import("advent_utils");
+pub const input_txt = @embedFile("input.txt");
+pub const example_txt = @embedFile("example.txt");
 
 pub const Op = enum {
     add,
@@ -114,14 +117,25 @@ fn parse(file_content: []const u8, operands: *std.BoundedArray(u64, 16)) !u64 {
     return test_value;
 }
 
+test "part1-example" {
+    const input = example_txt;
+    try std.testing.expectEqual(solve_with_ops(input, &[_]Op{
+        .add,
+        .mul,
+    }), 1620690235709);
+}
+test "part2-example" {
+    const input = example_txt;
+    try std.testing.expectEqual(solve_with_ops(input, &[_]Op{ .add, .mul, .concat }), 145397611075341);
+}
 test "part1" {
-    const input = @embedFile("./input.txt");
+    const input = input_txt;
     try std.testing.expectEqual(solve_with_ops(input, &[_]Op{
         .add,
         .mul,
     }), 1620690235709);
 }
 test "part2" {
-    const input = @embedFile("./input.txt");
+    const input = input_txt;
     try std.testing.expectEqual(solve_with_ops(input, &[_]Op{ .add, .mul, .concat }), 145397611075341);
 }
