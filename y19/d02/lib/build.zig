@@ -40,6 +40,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
+    all_tests.root_module.addImport("advent_utils", advent_utils_mod);
     const all_tests_cmd = b.addRunArtifact(all_tests);
 
     const all_tests_step = b.step("test", "Run the tests");
@@ -58,6 +59,7 @@ pub fn build(b: *std.Build) !void {
             .optimize = optimize,
             .filters = &.{t.filter},
         });
+        t_compile.root_module.addImport("advent_utils", advent_utils_mod);
         const t_run = b.addRunArtifact(t_compile);
         const t_step = b.step(t.cmd, t.description);
         t_step.dependOn(&t_run.step);

@@ -4,11 +4,16 @@ ptr: usize,
 const std = @import("std");
 const LineParser = @This();
 
+pub const KnownCharError = error{
+    EndOfFile,
+    ExpectedCharNotFound,
+};
+
 pub fn init(input: []const u8) LineParser {
     return LineParser{ .input = input, .ptr = 0 };
 }
 
-pub fn parseKnownChar(self: *LineParser, expected: u8) !bool {
+pub fn parseKnownChar(self: *LineParser, expected: u8) KnownCharError!bool {
     if (self.ptr >= self.input.len) {
         return error.EndOfFile;
     }
