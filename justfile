@@ -2,7 +2,7 @@ default:
     just --list
 
 generate year day:
-    # mkdir ./y{{year}}
+    @(stat ./y{{year}} || mkdir ./y{{year}})
     @mkdir ./y{{year}}/d{{day}}
     @cp -r ./year-template/day/part1 ./y{{year}}/d{{day}}/part1
     @cp -r ./year-template/day/part2 ./y{{year}}/d{{day}}/part2
@@ -11,6 +11,9 @@ generate year day:
     @nu fetch.nu 20{{year}} {{day}};
     @cd ./y{{year}}/d{{day}}/part1 && zig build --help
     @cd ./y{{year}}/d{{day}}/part2 && zig build --help
+
+fetch year day:
+    @nu fetch.nu 20{{year}} {{day}};
 
 run-p1 year day:
     cd ./y{{year}}/d{{day}}/part1 && zig build run -- ./src/input.txt 
@@ -24,6 +27,14 @@ run-p2 year day:
 
 test year day:
     cd ./y{{year}}/d{{day}}/lib && zig build test
+test-p1 year day:
+    cd ./y{{year}}/d{{day}}/lib && zig build test-p1
+test-p1-example year day:
+    cd ./y{{year}}/d{{day}}/lib && zig build test-p1-example
+test-p2 year day:
+    cd ./y{{year}}/d{{day}}/lib && zig build test-p2
+test-p2-example year day:
+    cd ./y{{year}}/d{{day}}/lib && zig build test-p2-example
 
 clear:
     rm -rf ./y*/d*/part*/zig-out
