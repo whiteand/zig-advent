@@ -15,14 +15,14 @@ fetch year day:
     @nu fetch.nu 20{{year}} {{day}};
 
 run-p1 year day:
-    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ./src/input.txt 
+    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ../lib/src/input.txt 
 run-p1-example year day:
-    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ../example.txt 
+    cd ./y{{year}}/d{{day}}/part1 && zig build run -- ../lib/src/example.txt 
 run-p2-example year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ../example.txt
+    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ../lib/src/example.txt
 
 run-p2 year day:
-    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ./src/input.txt
+    cd ./y{{year}}/d{{day}}/part2 && zig build run -- ../lib/src/input.txt
 
 test year day:
     cd ./y{{year}}/d{{day}}/lib && zig build test
