@@ -51,7 +51,7 @@ pub fn build(b: *std.Build) !void {
         filter: []const u8,
         description: []const u8,
         cmd: []const u8,
-    } = &.{ .{ .filter = "part1-example", .description = "Run Part 1 Example Tests", .cmd = "test-p1-example" }, .{ .filter = "part2-example", .description = "Run Part 2 Example Tests", .cmd = "test-p2-example" }, .{ .filter = "part1-actual", .description = "Run Part 1 Actual Tests", .cmd = "test-p1" }, .{ .filter = "part2-actual", .description = "Run Part 2 Actual Tests", .cmd = "test-p2" } };
+    } = &.{ .{ .filter = "part1-actual", .description = "Run Part 1 Actual Tests", .cmd = "test-p1" }, .{ .filter = "part2-actual", .description = "Run Part 2 Actual Tests", .cmd = "test-p2" } };
 
     for (tests) |t| {
         const t_compile = b.addTest(.{

@@ -24,11 +24,11 @@ pub fn solve2(
 test "part1-example" {
     try std.testing.expectEqual(0, solve1(example_txt, std.testing.allocator));
 }
-test "part2-example" {
-    try std.testing.expectEqual(0, solve2(example_txt, std.testing.allocator));
-}
 test "part1-actual" {
     try std.testing.expectEqual(0, solve1(input_txt, std.testing.allocator));
+}
+test "part2-example" {
+    try std.testing.expectEqual(0, solve2(example_txt, std.testing.allocator));
 }
 test "part2-actual" {
     try std.testing.expectEqual(0, solve2(input_txt, std.testing.allocator));
